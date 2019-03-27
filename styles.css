@@ -2,4 +2,16 @@ body { background-color: #30303d; color: #fff; }
 #chartdiv {
   width: 100%;
   height: 500px;
-}																	
+}	
+
+#main-container{
+  width: 100%;
+}
+
+/* #submit-form-wrapper{
+  width: 20%;
+}
+
+#table-wrapper{
+  width:50%;
+} */

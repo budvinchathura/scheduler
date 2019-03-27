@@ -1,6 +1,7 @@
 
 class Process {
-    constructor(name, arrivalTime, burstTime) {
+    constructor(pid,name, arrivalTime, burstTime) {
+        this.pid = pid;
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;

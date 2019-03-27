@@ -31,12 +31,12 @@ class Scheduler{
     }
 
     processAll(){
-        console.log(this.processMap.t0);
+        // console.log(this.processMap.t0);
         var rem = this.q;
         var current = null;
         var i=0;
         while(true){
-            // console.log("executing");
+            // console.log(i);
             var stri = "t"+i.toString();
             if(this.processMap.hasOwnProperty(stri)){
                 var tempList = this.processMap[stri];
@@ -71,8 +71,9 @@ class Scheduler{
                         current.endSegment(i)
                         this.processQueue.push(current);
                         current = this.processQueue.shift();
+                        current.startSegment(i);
                     }
-                    current.startSegment(i);
+                    
                     
                     this.waitOthers();
                     current.execute(i);
@@ -98,6 +99,7 @@ class Scheduler{
                     //end of a process
                     if(current.getRemainingTime() ==0){
                         current.endSegment(i+1);
+                        this.graphData.push(current.getTimeLineBar());
                         rem=this.q;
                         current=null;
                     }else{

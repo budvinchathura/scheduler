@@ -1,15 +1,17 @@
 // import Process from './Process.js';
 // import Scheduler from './Scheduler.js';
-var process1 = new Process('A',0,7);
-var process2 = new Process('B',3,6);
-var process3 = new Process('C',5,10);
-var process4 = new Process('D',5,7);
-var process5 = new Process('E',10,2);
 
-processList = [process1,process2,process3,process4,process5];
-myScheduler = new Scheduler(processList,4);
-finalGraphData = myScheduler.processAll();
-console.log(finalGraphData);
+
+// var process1 = new Process('A',0,7);
+// var process2 = new Process('B',3,6);
+// var process3 = new Process('C',5,10);
+// var process4 = new Process('D',5,7);
+// var process5 = new Process('E',10,2);
+
+// processList = [process1,process2,process3,process4,process5];
+// myScheduler = new Scheduler(processList,4);
+// finalGraphData = myScheduler.processAll();
+// console.log(finalGraphData);
 
 // var myobj = new Object;
 // myobj.category = "Bucha";
