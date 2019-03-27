@@ -43,7 +43,8 @@ class UI {
         <td> ${process.name}</td>
         <td> ${process.arrivalTime} </td>
         <td> ${process.burstTime} </td>
-        <td><a href="#" class = "btn btn-danger delete">X</a></td>
+        <td><div class="dot" style="background-color:${process.color};"></div></td>
+        <td ><a href="#" class = "btn btn-danger delete hide-delete">X</a></td>
         `;
 
 
@@ -56,15 +57,19 @@ class UI {
     }
 
     static showAlert(message,className){
-        const div = document.createElement('div');
-        div.className = `alert alert-${className}`;
-        div.appendChild(document.createTextNode(message));
-        const container = document.querySelector('.container');
-        const form = document.querySelector('#submit-form');
-        container.insertBefore(div,form);
+        // const div = document.createElement('div');
+        // div.className = `alert alert-${className}`;
+        // div.appendChild(document.createTextNode(message));
+        // const container = document.querySelector('.container');
+        // const onlyrow = document.querySelector('.row');
+        // container.insertBefore(div,onlyrow);
 
-        //vanish in 2 seconds
-        setTimeout(()=>document.querySelector('.alert').remove(),2000);
+        // //vanish in 2 seconds
+        // setTimeout(()=>document.querySelector('.alert').remove(),2000);
+
+        document.querySelector('#overlay').innerHTML = message;
+        $('#overlay').fadeIn(500);
+        $('#overlay').fadeOut(500); 
     }
 
     static clearFields() {
@@ -84,6 +89,15 @@ class UI {
             UI.showAlert('Item removed','danger');
         }
     }
+
+    static hideDeleteColumn(){
+        $('#process-table tr > *:nth-child(6)').hide();
+        
+    }
+
+    static unhideDeleteColumn(){
+        $('#process-table tr > *:nth-child(6)').show();
+    }
 }
 
 //Event: display food items
@@ -93,12 +107,16 @@ document.addEventListener('DOMContentLoaded', UI.clearFields());
 
 //Event: Add an item
 document.querySelector('#add').addEventListener('click', (e) => {
+
     if(executed){
         UI.clearTable();
         processList = [];
         pidValues = [];
         executed = false;
         makeChart([]);
+        UI.unhideDeleteColumn();
+        
+        
     }
     
 
@@ -160,6 +178,7 @@ document.querySelector('#reset').addEventListener('click', (e) => {
     pidValues=[];
     UI.clearFields();
     UI.clearTable();
+    UI.unhideDeleteColumn();
 });
 
 document.querySelector('#preset').addEventListener('click', (e) => {
@@ -172,6 +191,7 @@ document.querySelector('#preset').addEventListener('click', (e) => {
     loadPresetData();
     // console.log(pidValues);
     UI.clearFields();
+    UI.unhideDeleteColumn();
 });
 
 function loadPresetData(){
@@ -253,6 +273,7 @@ function runSimulation(processList){
         processList = [];
         pidValues=[];
         UI.clearFields();
+        UI.hideDeleteColumn();
         // console.log(processList);
     }else{
         UI.showAlert("No processes added!!");

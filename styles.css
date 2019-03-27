@@ -8,6 +8,14 @@ body { background-color: #30303d; color: #fff; }
   width: 100%;
 }
 
+.dot {
+  height: 1rem;
+  width: 1rem;
+  
+  border-radius: 50%;
+  display: inline-block;
+}
+
 /* #submit-form-wrapper{
   width: 20%;
 }
@@ -15,3 +23,36 @@ body { background-color: #30303d; color: #fff; }
 #table-wrapper{
   width:50%;
 } */
+
+#overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  z-index:999;
+  text-align: center;
+}
+
+#popup {
+  display: block;
+  /* margin-left: auto;
+  margin-right: auto; */
+  width: 50%;
+  height: 50%;
+  margin:0px auto;
+  top:6rem;
+
+  /* max-width: 600px;
+  width: 80%;
+  max-height: 300px;
+  height: 80%;
+  padding: 20px; */
+  /* position: relative; */
+  background: #fff;
+  /* margin: 20px auto; */
+}
