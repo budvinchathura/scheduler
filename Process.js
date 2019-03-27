@@ -10,7 +10,7 @@ class Process {
         this.started=false;
         this.timeLineBar = new TimeLineBar(this.name);
         this.currentSegment = null;
-        this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+        this.color = getRandomColor();
     }
 
     execute(time){

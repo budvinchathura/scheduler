@@ -7,6 +7,8 @@ class FoodItem {
     }
 }
 
+
+
 // UI Class : handles UI tasks
 
 class UI {
