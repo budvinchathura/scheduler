@@ -12,6 +12,7 @@ class Process {
         this.timeLineBar = new TimeLineBar(this.name);
         this.currentSegment = null;
         this.color = getRandomColor();
+        this.addArrivalIndication();
     }
 
     execute(time){
@@ -57,6 +58,13 @@ class Process {
 
     endSegment(endTime){
         this.currentSegment.end = endTime;
+        this.timeLineBar.segments.push(this.currentSegment);
+        this.currentSegment = null;
+    }
+
+    addArrivalIndication(){
+        this.currentSegment = new Segment(this.name,this.arrivalTime,this.color);
+        this.currentSegment.duration = 0.2;
         this.timeLineBar.segments.push(this.currentSegment);
         this.currentSegment = null;
     }

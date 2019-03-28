@@ -57,3 +57,12 @@ body { background-color: #30303d; color: #fff; }
   background: transparent;
   /* margin: 20px auto; */
 }
+
+#heading{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 3rem;
+  text-align: center;
+}
+#table-wrapper{
+  padding-top: 1rem;
+}
