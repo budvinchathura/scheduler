@@ -32,22 +32,22 @@
                     <form id="submit-form">
                         <!-- <form id="submit-form" action="addItem.php" method="POST"> -->
                         <div class="form-group">
-                            <label for="item-name">PID</label>
-                            <input type="text" class="form-control" placeholder="PID" id="pid" disabled>
+                            <label for="pid">PID</label>
+                            <input type="text" class="form-control" placeholder="PID" name = "pid" id="pid" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="item-name">Process Name</label>
-                            <input type="text" class="form-control" placeholder="Process Name" id="process-name">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="restaurant">Arrival Time</label>
-                            <input type="text" class="form-control" placeholder="Start Time" id="arrival-time">
+                            <label for="process-name">Process Name</label>
+                            <input type="text" class="form-control" name = "process-name" placeholder="Process Name" id="process-name">
                         </div>
     
                         <div class="form-group">
-                            <label for="price">Burst Time</label>
-                            <input type="text" class="form-control" placeholder="Burst Time" id="burst-time">
+                            <label for="arrival-time">Arrival Time</label>
+                            <input type="text" class="form-control" name = "arrival-time" placeholder="Arrival Time" id="arrival-time">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="burst-time">Burst Time</label>
+                            <input type="text" class="form-control" name = "burst-time" placeholder="Burst Time" id="burst-time">
                         </div>
     
                         <input type="button" value="Add For Scheduling" class="btn btn-warning btn-block" id="add">
@@ -58,7 +58,11 @@
                                 name="preset">
     
                         </div>
-                        <input type="text" class="form-control col-xs-2" placeholder="Time Quantum" id="time-quantum">
+                        <hr size="30" color="white">
+                        <div class="form-group">
+                                <label for="time-quantum">Time Quantum</label>
+                                <input type="text" class="form-control col-xs-2" name = "time-quantum" placeholder="Time Quantum" id="time-quantum">
+                        </div>
                         <input type="button" value="Execute !" id="execute" class="btn btn-info btn-block " name="execute">
     
                     </form>
@@ -119,7 +123,6 @@
 <script type = "text/javascript" src = "Scheduler.js"></script>
 
 <script type = "text/javascript" src = "SchedulerDemo.js"></script>
-<script src="utils.js"></script>
 <script src="app.js" type="text/javascript"></script>
 
 </html>

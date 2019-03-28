@@ -1,15 +1,16 @@
 // FoodItem Class : Represents a food item
-class FoodItem {
-    constructor(name, restaurant, price) {
-        this.name = name;
-        this.restaurant = restaurant;
-        this.price = price;
-    }
-}
+// class FoodItem {
+//     constructor(name, restaurant, price) {
+//         this.name = name;
+//         this.restaurant = restaurant;
+//         this.price = price;
+//     }
+// }
 
 processList=[];
 pidValues=[];
 executed=false;
+timeQ = 4;
 
 // UI Class : handles UI tasks
 
@@ -56,7 +57,7 @@ class UI {
         list.innerHTML = "";
     }
 
-    static showAlert(message,className){
+    static showAlert(message){
         // const div = document.createElement('div');
         // div.className = `alert alert-${className}`;
         // div.appendChild(document.createTextNode(message));
@@ -67,7 +68,7 @@ class UI {
         // //vanish in 2 seconds
         // setTimeout(()=>document.querySelector('.alert').remove(),2000);
 
-        document.querySelector('#overlay').innerHTML = message;
+        document.querySelector('#popup').innerHTML = message;
         $('#overlay').fadeIn(500);
         $('#overlay').fadeOut(500); 
     }
@@ -79,14 +80,14 @@ class UI {
         document.querySelector("#burst-time").value = '';
     }
 
-    static deleteItem(element) {
+    static deleteProcess(element) {
         if (element.classList.contains('delete')) {
             var pid = element.parentElement.parentElement.id.substring(1);
             pid = parseInt(pid,10);
             removeProcess(pid);
             element.parentElement.parentElement.remove();
             //show message
-            UI.showAlert('Item removed','danger');
+            UI.showAlert('Process removed');
         }
     }
 
@@ -129,7 +130,7 @@ document.querySelector('#add').addEventListener('click', (e) => {
     //validation
     if (pid == "" || processName == "" || arrivalTime == "" || burstTime == "") {
         // alert("Please fill all the fields!!!");
-        UI.showAlert("Please fill all",'danger');
+        UI.showAlert("Please fill all");
 
     }
     else if(! /^\d+$/.test(pid)){
@@ -157,7 +158,7 @@ document.querySelector('#add').addEventListener('click', (e) => {
 //Event remove an item
 document.querySelector('#process-list').addEventListener('click', (e) => {
     // console.log(e.target)
-    UI.deleteItem(e.target)
+    UI.deleteProcess(e.target)
 
     
 });
@@ -264,9 +265,24 @@ function makeChart(finalGraphData){
 function runSimulation(processList){
     console.log("running simulation");
     console.log(processList);
+
+    var userTimeQ =  document.querySelector("#time-quantum").value;
+
+    // if(! /^\d+$/.test(userTimeQ)){
+    //     UI.showAlert("Time Quantum should be a positive integer!");
+    //     return;
+    // }
+    // timeQ = parseInt(userTimeQ,10);
+
     if (processList.length>0 && !executed){
-        // throw new Error("breakpoint");
-        myScheduler = new Scheduler(processList,4);
+
+        if(! /^\d+$/.test(userTimeQ) || ! /^(?!0*$).*$/.test(userTimeQ)){
+            UI.showAlert("Time Quantum should be a positive integer!");
+            return;
+        }
+        timeQ = parseInt(userTimeQ,10);
+
+        myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
         makeChart(finalGraphData);
         executed = true;
@@ -274,8 +290,7 @@ function runSimulation(processList){
         pidValues=[];
         UI.clearFields();
         UI.hideDeleteColumn();
-        // console.log(processList);
-    }else{
+    }else if(!executed){
         UI.showAlert("No processes added!!");
     }
 }
