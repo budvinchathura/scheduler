@@ -111,6 +111,8 @@ class Scheduler{
                     }else{
                         console.log("Finished !");
                         // console.log(this.processMap);
+                        // this.graphData.push(Process.allProcessBar);
+                        // console.log(this.graphData);
                         return this.graphData;
                     }
                 }

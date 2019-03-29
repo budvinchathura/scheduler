@@ -99,6 +99,41 @@ class UI {
     static unhideDeleteColumn(){
         $('#process-table tr > *:nth-child(6)').show();
     }
+
+    static animateOne(id,delay,size){
+        // console.log(`${size}rem`);
+        var segment = $(id);
+        console.log(segment);
+        segment.animate({width:'10px'},"slow");
+
+    }
+
+    static animateQ(){
+        console.log("animatingq");
+        for(var i=0;i<Process.allProcessTimes.length;i++){
+            var id = "s".concat(i);
+            UI.animateOne(id,i*1000,Process.allProcessTimes[i][0],)
+        }
+
+    }
+
+    static updateChart(){
+        var htmlStr=""
+        for(var i=0;i<Process.allProcessTimes.length;i++){
+            var tempStr = "";
+            
+            tempStr = tempStr.concat(`<li id=s${i} style="background:${Process.allProcessTimes[i][1]};height:2rem;width:1rem;" class="segment">`);
+            tempStr = tempStr.concat(Process.allProcessTimes[i][2]);
+            tempStr = tempStr.concat("</li>");
+            htmlStr = htmlStr.concat(tempStr);
+        }
+        
+        // htmlStr = htmlStr.slice(0,-5);
+        // console.log(Process.allProcessTimes);
+        
+        $("#list").html(htmlStr);
+        UI.animateQ();
+    }
 }
 
 //Event: display food items
@@ -180,6 +215,8 @@ document.querySelector('#reset').addEventListener('click', (e) => {
     UI.clearFields();
     UI.clearTable();
     UI.unhideDeleteColumn();
+
+    
 });
 
 document.querySelector('#preset').addEventListener('click', (e) => {
@@ -285,11 +322,16 @@ function runSimulation(processList){
         myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
         makeChart(finalGraphData);
+        UI.updateChart();
         executed = true;
         processList = [];
         pidValues=[];
         UI.clearFields();
         UI.hideDeleteColumn();
+
+        console.log(Process.allProcessTimes);
+        Process.allProcessTimes=[];
+        Process.allProcessBar= new TimeLineBar("All Processes");
     }else if(!executed){
         UI.showAlert("No processes added!!");
     }

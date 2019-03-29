@@ -19,15 +19,15 @@
     </div>
 
     <div class="container container-fluid " id="main-container">
-
+    
         <div id="overlay">
             <div id="popup">
-                
-                
+    
+    
                 <p>You just triggered a popup</p>
             </div>
         </div>
-
+    
         <div class="row">
             <div class="col">
     
@@ -36,21 +36,24 @@
                         <!-- <form id="submit-form" action="addItem.php" method="POST"> -->
                         <div class="form-group">
                             <label for="pid">PID</label>
-                            <input type="text" class="form-control" placeholder="PID" name = "pid" id="pid" disabled>
+                            <input type="text" class="form-control" placeholder="PID" name="pid" id="pid" disabled>
                         </div>
                         <div class="form-group">
                             <label for="process-name">Process Name</label>
-                            <input type="text" class="form-control" name = "process-name" placeholder="Process Name" id="process-name">
+                            <input type="text" class="form-control" name="process-name" placeholder="Process Name"
+                                id="process-name">
                         </div>
     
                         <div class="form-group">
                             <label for="arrival-time">Arrival Time</label>
-                            <input type="text" class="form-control" name = "arrival-time" placeholder="Arrival Time" id="arrival-time">
+                            <input type="text" class="form-control" name="arrival-time" placeholder="Arrival Time"
+                                id="arrival-time">
                         </div>
     
                         <div class="form-group">
                             <label for="burst-time">Burst Time</label>
-                            <input type="text" class="form-control" name = "burst-time" placeholder="Burst Time" id="burst-time">
+                            <input type="text" class="form-control" name="burst-time" placeholder="Burst Time"
+                                id="burst-time">
                         </div>
     
                         <input type="button" value="Add Process For Scheduling" class="btn btn-warning btn-block" id="add">
@@ -63,8 +66,9 @@
                         </div>
                         <hr size="30" color="white">
                         <div class="form-group">
-                                <label for="time-quantum">Time Quantum</label>
-                                <input type="text" class="form-control col-xs-2" name = "time-quantum" placeholder="Time Quantum" id="time-quantum">
+                            <label for="time-quantum">Time Quantum</label>
+                            <input type="text" class="form-control col-xs-2" name="time-quantum" placeholder="Time Quantum"
+                                id="time-quantum">
                         </div>
                         <input type="button" value="Execute !" id="execute" class="btn btn-info btn-block " name="execute">
     
@@ -93,6 +97,13 @@
             </div>
         </div>
     
+    </div>
+
+    <div class="gchart-wrapper">
+        <ul id="list">
+            <div ></div>
+            
+        </ul>
     </div>
 
 

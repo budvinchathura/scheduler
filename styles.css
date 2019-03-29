@@ -66,3 +66,13 @@ body { background-color: #30303d; color: #fff; }
 #table-wrapper{
   padding-top: 1rem;
 }
+
+.segment{
+  font-kerning: 1rem;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0px;
+  display: inline-block;
+  border: 0px;
+  padding: 0px;
+}

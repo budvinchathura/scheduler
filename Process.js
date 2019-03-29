@@ -1,4 +1,3 @@
-
 class Process {
     constructor(pid,name, arrivalTime, burstTime) {
         this.pid = pid;
@@ -59,6 +58,8 @@ class Process {
     endSegment(endTime){
         this.currentSegment.end = endTime;
         this.timeLineBar.segments.push(this.currentSegment);
+        Process.allProcessBar.segments.push(this.currentSegment);
+        Process.allProcessTimes.push([endTime - this.currentSegment.start,this.color,this.name]);
         this.currentSegment = null;
     }
 
@@ -69,3 +70,6 @@ class Process {
         this.currentSegment = null;
     }
 }
+
+Process.allProcessTimes=[];
+Process.allProcessBar= new TimeLineBar("All Processes");

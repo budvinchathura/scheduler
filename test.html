@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
      <head>
         <script type = "text/javascript" src = "Segment.js"></script>
 
@@ -9,4 +9,66 @@
 
         <script type = "text/javascript" src = "SchedulerDemo.js"></script>
     </head>
+ </html> -->
+
+
+ <html>
+ <head>
+      <link rel="stylesheet" href="styles2.css" type="text/css" media="all" />
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script> 
+ $(document).ready(function(){
+   console.log("ready");
+   
+
+ });
+
+ 
+ 
+
+ function animateOne(id,delay){
+    console.log("animting");
+    console.log(id);
+    var segment = $(id);
+    segment.delay(delay).animate({width:'250px'},"slow");
+
+    //   div.animate({height: '300px', opacity: '0.4'}, "slow");
+   //  div.animate({width: '300px', opacity: '0.8'}, "slow");
+   //   div.animate({height: '100px', opacity: '0.4'}, "slow");
+   //   div.animate({width: '100px', opacity: '0.8'}, "slow");
+ }
+
+ function createQ(){
+    for(var i=1;i<=4;i++){
+       
+       var id = "#".concat(i);
+       animateOne(id,i*1000);
+      //  setTimeout(function () {
+      //    animateOne(id);
+                
+      //    }, 800);        
+      
+      
+      
+      // delay(1000);
+      
+      
+    }
+
+ }
+ </script> 
+ </head>
+ <body>
+ 
+ <button id="buttonid" onclick="createQ()">Start Animation</button>
+ 
+ <p>By default, all HTML elements have a static position, and cannot be moved. To manipulate the position, remember to first set the CSS position property of the element to relative, fixed, or absolute!</p>
+
+ <ul class="wrapper">
+ <li id="1" style="background:#98bf21;height:20px;width:0px" class="segment"></li><li id="2" style="background:#98bf21;height:20px;width:0px;" class="segment"></li><li id="3" style="background:#98bf21;height:20px;width:0px;" class="segment"></li>
+ <li id="4" style="background:#98bf21;height:20px;width:0px;" class="segment"></li>
+ </ul>
+
+ 
+ </body>
  </html>
