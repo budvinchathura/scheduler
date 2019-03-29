@@ -1,11 +1,4 @@
-// FoodItem Class : Represents a food item
-// class FoodItem {
-//     constructor(name, restaurant, price) {
-//         this.name = name;
-//         this.restaurant = restaurant;
-//         this.price = price;
-//     }
-// }
+
 
 processList=[];
 pidValues=[];
@@ -101,18 +94,20 @@ class UI {
     }
 
     static animateOne(id,delay,size){
-        // console.log(`${size}rem`);
+        console.log(`${size}rem`);
+        console.log(id);
         var segment = $(id);
-        console.log(segment);
-        segment.animate({width:'10px'},"slow");
+        // console.log(segment);
+        segment.delay(delay).animate({width:`${size*2}rem`,opacity:1},"slow");
+        // segment.animate({width:'15px'},"slow");
 
     }
 
     static animateQ(){
         console.log("animatingq");
         for(var i=0;i<Process.allProcessTimes.length;i++){
-            var id = "s".concat(i);
-            UI.animateOne(id,i*1000,Process.allProcessTimes[i][0],)
+            var id = "#s".concat(i);
+            UI.animateOne(id,i*1000,Process.allProcessTimes[i][0])
         }
 
     }
@@ -122,8 +117,9 @@ class UI {
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var tempStr = "";
             
-            tempStr = tempStr.concat(`<li id=s${i} style="background:${Process.allProcessTimes[i][1]};height:2rem;width:1rem;" class="segment">`);
+            tempStr = tempStr.concat(`<li id=s${i} style="background:${Process.allProcessTimes[i][1]};height:3rem;width:0rem;opacity:0;" class="segment">`);
             tempStr = tempStr.concat(Process.allProcessTimes[i][2]);
+            tempStr = tempStr.concat("<br>("+ Process.allProcessTimes[i][0] +" cycles)");
             tempStr = tempStr.concat("</li>");
             htmlStr = htmlStr.concat(tempStr);
         }
