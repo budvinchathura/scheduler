@@ -94,8 +94,6 @@ class UI {
     }
 
     static animateOne(id,delay,size){
-        console.log(`${size}rem`);
-        console.log(id);
         var segment = $(id);
         // console.log(segment);
         segment.delay(delay).animate({width:`${size*2}rem`,opacity:1},"slow");
@@ -104,7 +102,6 @@ class UI {
     }
 
     static animateQ(){
-        console.log("animatingq");
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var id = "#s".concat(i);
             UI.animateOne(id,i*1000,Process.allProcessTimes[i][0])
@@ -112,14 +109,21 @@ class UI {
 
     }
 
-    static updateChart(){
+    static updateGanttChart(){
         var htmlStr=""
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var tempStr = "";
             
             tempStr = tempStr.concat(`<li id=s${i} style="background:${Process.allProcessTimes[i][1]};height:3rem;width:0rem;opacity:0;" class="segment">`);
-            tempStr = tempStr.concat(Process.allProcessTimes[i][2]);
-            tempStr = tempStr.concat("<br>("+ Process.allProcessTimes[i][0] +" cycles)");
+            // tempStr = tempStr.concat(Process.allProcessTimes[i][2]);
+            tempStr = tempStr.concat(`<ul class="sub-segment-wrapper">`)
+
+            for(var j=0;j<Process.allProcessTimes[i][0];j++){
+
+                tempStr = tempStr.concat(`<li style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};height:3rem;width:2rem;opacity:1;" class="sub-segment">${Process.allProcessTimes[i][2]}</li>`);
+            }
+            // tempStr = tempStr.concat("<br>("+ Process.allProcessTimes[i][0] +" cycles)");
+            tempStr = tempStr.concat("</ul>")
             tempStr = tempStr.concat("</li>");
             htmlStr = htmlStr.concat(tempStr);
         }
@@ -129,6 +133,10 @@ class UI {
         
         $("#list").html(htmlStr);
         UI.animateQ();
+    }
+
+    static clearGanttChart(){
+        $("#list").html("");
     }
 }
 
@@ -211,6 +219,7 @@ document.querySelector('#reset').addEventListener('click', (e) => {
     UI.clearFields();
     UI.clearTable();
     UI.unhideDeleteColumn();
+    UI.clearGanttChart();
 
     
 });
@@ -226,15 +235,16 @@ document.querySelector('#preset').addEventListener('click', (e) => {
     // console.log(pidValues);
     UI.clearFields();
     UI.unhideDeleteColumn();
+    UI.clearGanttChart();
 });
 
 function loadPresetData(){
     process1 = new Process(1,"A",0,8)
-    process2 = new Process(2,"B",1,10)
-    process3 = new Process(3,"C",4,4)
+    process2 = new Process(2,"B",1,4)
+    process3 = new Process(3,"C",4,2)
     process4 = new Process(4,"D",6,2)
-    process5 = new Process(5,"E",8,12)
-    process6 = new Process(6,"F",12,6)
+    process5 = new Process(5,"E",20,6)
+    process6 = new Process(6,"F",30,7)
 
     processList = [process1,process2,process3,process4,process5,process6];
     
@@ -297,15 +307,9 @@ function makeChart(finalGraphData){
 
 function runSimulation(processList){
     console.log("running simulation");
-    console.log(processList);
 
     var userTimeQ =  document.querySelector("#time-quantum").value;
 
-    // if(! /^\d+$/.test(userTimeQ)){
-    //     UI.showAlert("Time Quantum should be a positive integer!");
-    //     return;
-    // }
-    // timeQ = parseInt(userTimeQ,10);
 
     if (processList.length>0 && !executed){
 
@@ -318,14 +322,14 @@ function runSimulation(processList){
         myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
         makeChart(finalGraphData);
-        UI.updateChart();
+        UI.updateGanttChart();
         executed = true;
         processList = [];
         pidValues=[];
         UI.clearFields();
         UI.hideDeleteColumn();
-
         console.log(Process.allProcessTimes);
+
         Process.allProcessTimes=[];
         Process.allProcessBar= new TimeLineBar("All Processes");
     }else if(!executed){
@@ -350,8 +354,7 @@ function removeProcess(pid){
         }
         
     }
-    console.log(processList);
-    console.log(pidValues);
+    
 
 }
 

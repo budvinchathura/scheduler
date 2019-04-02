@@ -59,7 +59,7 @@ class Process {
         this.currentSegment.end = endTime;
         this.timeLineBar.segments.push(this.currentSegment);
         Process.allProcessBar.segments.push(this.currentSegment);
-        Process.allProcessTimes.push([endTime - this.currentSegment.start,this.color,this.name]);
+        Process.allProcessTimes.push([parseInt(endTime,10) - parseInt(this.currentSegment.start,10),this.color,this.name]);
         this.currentSegment = null;
     }
 

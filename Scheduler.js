@@ -6,6 +6,7 @@ class Scheduler{
         this.tempProcess=null;
         this.tempTime=0;
         this.graphData=[];
+        this.currentIdlePeriod = 0;
 
         for(var i in processList){
             
@@ -31,12 +32,13 @@ class Scheduler{
     }
 
     processAll(){
-        // console.log(this.processMap.t0);
         var rem = this.q;
         var current = null;
         var i=0;
         while(true){
             // console.log(i);
+
+            //check for incoming processes on current clock cycle
             var stri = "t"+i.toString();
             if(this.processMap.hasOwnProperty(stri)){
                 var tempList = this.processMap[stri];
@@ -91,6 +93,10 @@ class Scheduler{
                 }
             }else{
                 if(this.processQueue.length>0){
+                    if(this.currentIdlePeriod>0){
+                        Process.allProcessTimes.push([this.currentIdlePeriod,"#000000","Idle"]);
+                        this.currentIdlePeriod = 0;
+                    }
                     current = this.processQueue.shift();
                     this.waitOthers();
                     current.execute(i);
@@ -108,11 +114,12 @@ class Scheduler{
                 }else{
                     if(Object.keys(this.processMap).length>0){
                         console.log("Idle...");
+                        this.currentIdlePeriod++;
                     }else{
                         console.log("Finished !");
                         // console.log(this.processMap);
                         // this.graphData.push(Process.allProcessBar);
-                        // console.log(this.graphData);
+                        this.currentIdlePeriod =0;
                         return this.graphData;
                     }
                 }
