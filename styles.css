@@ -67,6 +67,10 @@ body { background-color: #30303d; color: #fff; }
   padding-top: 1rem;
 }
 
+.gchart-wrapper{
+  text-align: center;
+}
+
 .segment{
   font-size: 1rem;
   vertical-align: middle;

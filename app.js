@@ -5,11 +5,11 @@ pidValues=[];
 executed=false;
 timeQ = 4;
 
-function blink_text() {
-    $('#blinking').fadeOut(100);
-    $('#blinking').fadeIn(100);
-}
-setInterval(blink_text, 50);
+// function blink_text() {
+//     $('#blinking').fadeOut(100);
+//     $('#blinking').fadeIn(100);
+// }
+// setInterval(blink_text, 50);
 
 // UI Class : handles UI tasks
 
@@ -84,7 +84,7 @@ class UI {
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var id = "#s".concat(i);
             UI.animateOne(id,i*1500,Process.allProcessTimes[i][0])
-            $('#blinking').delay(1500).animate({content:Process.allProcessTimes[i][2]},"fast");
+            // $('#blinking').delay(i*1500).animate({content:Process.allProcessTimes[i][2]},"fast");
 
             // $('#blinking').html(Process.allProcessTimes[i][2]);
             
@@ -94,9 +94,9 @@ class UI {
             // });
 
 
-            // setTimeout(function () {
-            //     $("#blinking").html(Process.allProcessTimes[i][2]);
-            // }, 1500);
+            setTimeout(function () {
+                $("#blinking").html(Process.allProcessTimes[i][2]);
+            }, 1500);
         }
 
     }
