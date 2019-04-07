@@ -5,27 +5,16 @@ pidValues=[];
 executed=false;
 timeQ = 4;
 
+function blink_text() {
+    $('#blinking').fadeOut(100);
+    $('#blinking').fadeIn(100);
+}
+setInterval(blink_text, 50);
+
 // UI Class : handles UI tasks
 
 class UI {
-    static displayItems() {
-        const storedItems = [
-            {
-                name: 'Item1',
-                restaurant: 'rest1',
-                price: '666'
-            },
-            {
-                name: 'Item2',
-                restaurant: 'rest1',
-                price: '$$$'
-            }
-        ];
-
-        const items = storedItems;
-        items.forEach((item) => UI.addItemToList(item));
-    }
-
+    
     static addProcessToList(process) {
         const list = document.querySelector('#process-list');
 
@@ -51,16 +40,7 @@ class UI {
     }
 
     static showAlert(message){
-        // const div = document.createElement('div');
-        // div.className = `alert alert-${className}`;
-        // div.appendChild(document.createTextNode(message));
-        // const container = document.querySelector('.container');
-        // const onlyrow = document.querySelector('.row');
-        // container.insertBefore(div,onlyrow);
-
-        // //vanish in 2 seconds
-        // setTimeout(()=>document.querySelector('.alert').remove(),2000);
-
+        
         document.querySelector('#popup').innerHTML = message;
         $('#overlay').fadeIn(500);
         $('#overlay').fadeOut(500); 
@@ -95,18 +75,40 @@ class UI {
 
     static animateOne(id,delay,size){
         var segment = $(id);
-        // console.log(segment);
         segment.delay(delay).animate({width:`${size*2}rem`,opacity:1},"slow");
-        // segment.animate({width:'15px'},"slow");
+        
 
     }
 
     static animateQ(){
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var id = "#s".concat(i);
-            UI.animateOne(id,i*1000,Process.allProcessTimes[i][0])
+            UI.animateOne(id,i*1500,Process.allProcessTimes[i][0])
+            $('#blinking').delay(1500).animate({content:Process.allProcessTimes[i][2]},"fast");
+
+            // $('#blinking').html(Process.allProcessTimes[i][2]);
+            
+            // $('#blinking').delay(i*1500).queue(function(){
+            //     $(this).html(Process.allProcessTimes[i][2]);
+            //     n();
+            // });
+
+
+            // setTimeout(function () {
+            //     $("#blinking").html(Process.allProcessTimes[i][2]);
+            // }, 1500);
         }
 
+    }
+
+    static showStatistics(waitingTime,turnAroundTime){
+        $('#waitingTime').html(waitingTime);
+        $('#turnATime').html(turnAroundTime);
+    }
+
+    static clearStatistics(){
+        $('#waitingTime').html("");
+        $('#turnATime').html("");
     }
 
     static updateGanttChart(){
@@ -115,21 +117,18 @@ class UI {
             var tempStr = "";
             
             tempStr = tempStr.concat(`<li id=s${i} style="background:${Process.allProcessTimes[i][1]};height:3rem;width:0rem;opacity:0;" class="segment">`);
-            // tempStr = tempStr.concat(Process.allProcessTimes[i][2]);
             tempStr = tempStr.concat(`<ul class="sub-segment-wrapper">`)
 
             for(var j=0;j<Process.allProcessTimes[i][0];j++){
 
                 tempStr = tempStr.concat(`<li style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};height:3rem;width:2rem;opacity:1;" class="sub-segment">${Process.allProcessTimes[i][2]}</li>`);
             }
-            // tempStr = tempStr.concat("<br>("+ Process.allProcessTimes[i][0] +" cycles)");
             tempStr = tempStr.concat("</ul>")
             tempStr = tempStr.concat("</li>");
             htmlStr = htmlStr.concat(tempStr);
         }
         
-        // htmlStr = htmlStr.slice(0,-5);
-        // console.log(Process.allProcessTimes);
+       
         
         $("#list").html(htmlStr);
         UI.animateQ();
@@ -140,12 +139,12 @@ class UI {
     }
 }
 
-//Event: display food items
+//Event: clear inputs
 
 document.addEventListener('DOMContentLoaded', UI.clearFields());
 
 
-//Event: Add an item
+//Event: Add a process
 document.querySelector('#add').addEventListener('click', (e) => {
 
     if(executed){
@@ -155,10 +154,10 @@ document.querySelector('#add').addEventListener('click', (e) => {
         executed = false;
         makeChart([]);
         UI.unhideDeleteColumn();
+        UI.clearStatistics();
         
         
-    }
-    
+    }    
 
     //get form values
     const pid = document.querySelector("#pid").value;
@@ -194,7 +193,7 @@ document.querySelector('#add').addEventListener('click', (e) => {
     }
 });
 
-//Event remove an item
+//Event remove a process
 document.querySelector('#process-list').addEventListener('click', (e) => {
     // console.log(e.target)
     UI.deleteProcess(e.target)
@@ -220,6 +219,10 @@ document.querySelector('#reset').addEventListener('click', (e) => {
     UI.clearTable();
     UI.unhideDeleteColumn();
     UI.clearGanttChart();
+    UI.clearStatistics();
+    Process.n =0;
+    Process.totalTurnAround = 0;
+    Process.totalWaiting = 0;
 
     
 });
@@ -236,6 +239,10 @@ document.querySelector('#preset').addEventListener('click', (e) => {
     UI.clearFields();
     UI.unhideDeleteColumn();
     UI.clearGanttChart();
+    UI.clearStatistics();
+    Process.n =0;
+    Process.totalTurnAround = 0;
+    Process.totalWaiting = 0;
 });
 
 function loadPresetData(){
@@ -318,20 +325,30 @@ function runSimulation(processList){
             return;
         }
         timeQ = parseInt(userTimeQ,10);
+        Process.n =processList.length;
+        Process.totalTurnAround = 0;
+        Process.totalWaiting = 0;
 
         myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
-        makeChart(finalGraphData);
         UI.updateGanttChart();
+        makeChart(finalGraphData);
         executed = true;
         processList = [];
         pidValues=[];
         UI.clearFields();
         UI.hideDeleteColumn();
-        console.log(Process.allProcessTimes);
+        console.log(Process.n);
+        console.log(Process.totalTurnAround/Process.n);
+        console.log(Process.totalWaiting/Process.n);
+
+        UI.showStatistics(parseFloat(Process.totalWaiting/Process.n).toFixed(3),parseFloat(Process.totalTurnAround/Process.n).toFixed(3));
 
         Process.allProcessTimes=[];
         Process.allProcessBar= new TimeLineBar("All Processes");
+        Process.n =0;
+        Process.totalTurnAround = 0;
+        Process.totalWaiting = 0;
     }else if(!executed){
         UI.showAlert("No processes added!!");
     }
@@ -339,7 +356,6 @@ function runSimulation(processList){
 
 function nextPid(){
     if (pidValues.length>0){
-        // console.log(Math.max(...pidValues));
         return Math.max(...pidValues)+1;
     }
     return 1;

@@ -95,3 +95,23 @@ body { background-color: #30303d; color: #fff; }
   padding: 0px;
   margin: 0px;
 }
+
+#statistics{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color:chartreuse;
+  font-size: 1.2rem;
+}
+
+#blinking{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color:lightgrey;
+  font-size: 1.2rem;
+}

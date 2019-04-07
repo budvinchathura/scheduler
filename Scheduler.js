@@ -58,6 +58,8 @@ class Scheduler{
                     //end of a process
                     if(current.getRemainingTime() ==0){
                         current.endSegment(i+1);
+                        Process.totalTurnAround += current.getTurnATime();
+                        Process.totalWaiting += current.getWaitingTime();
                         // console.log(JSON.stringify(current.getTimeLineBar()));
                         this.graphData.push(current.getTimeLineBar());
                         rem=this.q;
@@ -84,6 +86,8 @@ class Scheduler{
                     if(current.getRemainingTime() ==0){
                         current.endSegment(i+1);
                         // console.log(JSON.stringify(current.getTimeLineBar()));
+                        Process.totalTurnAround += current.getTurnATime();
+                        Process.totalWaiting += current.getWaitingTime();
                         this.graphData.push(current.getTimeLineBar());
                         rem=this.q;
                         current=null;
@@ -105,6 +109,8 @@ class Scheduler{
                     //end of a process
                     if(current.getRemainingTime() ==0){
                         current.endSegment(i+1);
+                        Process.totalTurnAround += current.getTurnATime();
+                        Process.totalWaiting += current.getWaitingTime();
                         this.graphData.push(current.getTimeLineBar());
                         rem=this.q;
                         current=null;

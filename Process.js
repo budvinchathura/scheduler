@@ -6,7 +6,7 @@ class Process {
         this.burstTime = burstTime;
         this.remainingTime = burstTime;
         this.waitingTime = 0;
-        this.turnATime = 0;
+        this.responseTime = 0;
         this.started=false;
         this.timeLineBar = new TimeLineBar(this.name);
         this.currentSegment = null;
@@ -16,7 +16,7 @@ class Process {
 
     execute(time){
         if(!this.started){
-            this.turnATime=time;
+            this.responseTime=time;
             this.started=true;
         }
         console.log(this.name);
@@ -35,16 +35,20 @@ class Process {
         return this.remainingTime;
     }
 
-    waitingTime(){
+    getWaitingTime(){
         return this.waitingTime;
     }
 
-    turnATime(){
-        return this.turnATime;
+    responseTime(){
+        return this.responseTime;
     }
 
     burstTime(){
         return this.burstTime;
+    }
+
+    getTurnATime(){
+        return parseInt(this.burstTime,10) + parseInt(this.waitingTime,10) ;
     }
 
     getTimeLineBar(){
@@ -73,3 +77,8 @@ class Process {
 
 Process.allProcessTimes=[];
 Process.allProcessBar= new TimeLineBar("All Processes");
+
+Process.n = 0;
+Process.totalWaiting = 0;
+Process.totalTurnAround = 0;
+
