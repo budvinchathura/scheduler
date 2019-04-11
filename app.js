@@ -5,11 +5,6 @@ pidValues=[];
 executed=false;
 timeQ = 4;
 
-// function blink_text() {
-//     $('#blinking').fadeOut(100);
-//     $('#blinking').fadeIn(100);
-// }
-// setInterval(blink_text, 50);
 
 // UI Class : handles UI tasks
 
@@ -84,21 +79,16 @@ class UI {
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var id = "#s".concat(i);
             UI.animateOne(id,i*1500,Process.allProcessTimes[i][0])
-            // $('#blinking').delay(i*1500).animate({content:Process.allProcessTimes[i][2]},"fast");
-
-            // $('#blinking').html(Process.allProcessTimes[i][2]);
-            
-            // $('#blinking').delay(i*1500).queue(function(){
-            //     $(this).html(Process.allProcessTimes[i][2]);
-            //     n();
-            // });
-
-
-            setTimeout(function () {
-                $("#blinking").html(Process.allProcessTimes[i][2]);
-            }, 1500);
         }
 
+    }
+
+    static animateRunning(){
+        for(var i=0;i<=Process.allProcessTimes.length;i++){
+            var id = "#run".concat(i);
+            var segment = $(id);
+            segment.delay(i*1500).animate({opacity:0.99},1);
+        }
     }
 
     static showStatistics(waitingTime,turnAroundTime){
@@ -113,6 +103,7 @@ class UI {
 
     static updateGanttChart(){
         var htmlStr=""
+        var time=0;
         for(var i=0;i<Process.allProcessTimes.length;i++){
             var tempStr = "";
             
@@ -120,8 +111,9 @@ class UI {
             tempStr = tempStr.concat(`<ul class="sub-segment-wrapper">`)
 
             for(var j=0;j<Process.allProcessTimes[i][0];j++){
+                time= time+1;
 
-                tempStr = tempStr.concat(`<li style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};height:3rem;width:2rem;opacity:1;" class="sub-segment">${Process.allProcessTimes[i][2]}</li>`);
+                tempStr = tempStr.concat(`<li style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};height:3rem;width:2rem;opacity:1;" class="sub-segment">${Process.allProcessTimes[i][2]} (${time})</li>`);
             }
             tempStr = tempStr.concat("</ul>")
             tempStr = tempStr.concat("</li>");
@@ -132,6 +124,29 @@ class UI {
         
         $("#list").html(htmlStr);
         UI.animateQ();
+    }
+
+
+    static updateCurrentRunning(){
+        var htmlStr='';
+        for(var i=0;i<Process.allProcessTimes.length;i++){
+            if(Process.allProcessTimes[i][2]=="Idle"){
+                htmlStr = htmlStr.concat(`<span id=run${i} style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};opacity:0;z-index:${(i+10)*10};"> Processor ${Process.allProcessTimes[i][2]} ...</span>`)
+            }
+            else{
+            htmlStr = htmlStr.concat(`<span id=run${i} style="background:${Process.allProcessTimes[i][1]};color:${invertHex(Process.allProcessTimes[i][1])};opacity:0;z-index:${(i+10)*10};"> Running Process: ${Process.allProcessTimes[i][2]}</span>`)
+            }
+        }
+        var i = Process.allProcessTimes.length;
+        htmlStr = htmlStr.concat(`<span id=run${i} style="background:black;color:white;opacity:0;z-index:${(i+10)*10};"> Finished...</span>`)
+
+
+        $('#current-running').html(htmlStr);
+        UI.animateRunning();
+    }
+
+    static clearCurrentRunning(){
+        $('#current-running').html("");
     }
 
     static clearGanttChart(){
@@ -219,6 +234,7 @@ document.querySelector('#reset').addEventListener('click', (e) => {
     UI.clearTable();
     UI.unhideDeleteColumn();
     UI.clearGanttChart();
+    UI.clearCurrentRunning();
     UI.clearStatistics();
     Process.n =0;
     Process.totalTurnAround = 0;
@@ -239,6 +255,7 @@ document.querySelector('#preset').addEventListener('click', (e) => {
     UI.clearFields();
     UI.unhideDeleteColumn();
     UI.clearGanttChart();
+    UI.clearCurrentRunning();
     UI.clearStatistics();
     Process.n =0;
     Process.totalTurnAround = 0;
@@ -263,7 +280,7 @@ function loadPresetData(){
 
 }
 
-
+//display amChart
 function makeChart(finalGraphData){
     console.log("making chart");
     var chart = AmCharts.makeChart( "chartdiv", {
@@ -332,6 +349,7 @@ function runSimulation(processList){
         myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
         UI.updateGanttChart();
+        UI.updateCurrentRunning();
         makeChart(finalGraphData);
         executed = true;
         processList = [];
@@ -354,6 +372,7 @@ function runSimulation(processList){
     }
 }
 
+//PID auto increment
 function nextPid(){
     if (pidValues.length>0){
         return Math.max(...pidValues)+1;
@@ -361,6 +380,7 @@ function nextPid(){
     return 1;
 }
 
+//remove a previously added process
 function removeProcess(pid){
 
     pidValues.splice( $.inArray(pid, pidValues), 1 );

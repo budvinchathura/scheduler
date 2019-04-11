@@ -16,13 +16,7 @@ body { background-color: #30303d; color: #fff; }
   display: inline-block;
 }
 
-/* #submit-form-wrapper{
-  width: 20%;
-}
 
-#table-wrapper{
-  width:50%;
-} */
 
 #overlay {
   position: fixed;
@@ -39,23 +33,14 @@ body { background-color: #30303d; color: #fff; }
 }
 
 #popup {
-  /* margin-left: auto;
-  margin-right: auto; */
+
   font-size: 2rem;
   width: 50%;
   height: 50%;
   margin:0px auto;
   margin-top: 7rem;
   top:50px;
-
-  /* max-width: 600px;
-  width: 80%;
-  max-height: 300px;
-  height: 80%;
-  padding: 20px; */
-  /* position: relative; */
   background: transparent;
-  /* margin: 20px auto; */
 }
 
 #heading{
@@ -68,7 +53,7 @@ body { background-color: #30303d; color: #fff; }
 }
 
 .gchart-wrapper{
-  text-align: center;
+  margin-left: 3rem;
 }
 
 .segment{
@@ -118,4 +103,23 @@ body { background-color: #30303d; color: #fff; }
   font-weight: bold;
   color:lightgrey;
   font-size: 1.2rem;
+}
+
+#current-running{
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 80%;
+}
+
+#current-running span{
+  display: block;
+  height: 8rem;
+  margin-top: -8rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+#current-running span:first-child{
+  margin: 0rem;
 }
