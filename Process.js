@@ -68,7 +68,7 @@ class Process {
     }
 
     addArrivalIndication(){
-        this.currentSegment = new Segment(this.name,this.arrivalTime,this.color);
+        this.currentSegment = new Segment(this.name.concat(" arrived"),this.arrivalTime,this.color);
         this.currentSegment.duration = 0.2;
         this.timeLineBar.segments.push(this.currentSegment);
         this.currentSegment = null;

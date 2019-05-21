@@ -175,10 +175,10 @@ document.querySelector('#add').addEventListener('click', (e) => {
     }    
 
     //get form values
-    const pid = document.querySelector("#pid").value;
-    const processName = document.querySelector("#process-name").value;
-    const arrivalTime = document.querySelector("#arrival-time").value;
-    const burstTime = document.querySelector("#burst-time").value;
+    const pid = document.querySelector("#pid").value.trim();
+    const processName = document.querySelector("#process-name").value.trim();
+    const arrivalTime = document.querySelector("#arrival-time").value.trim();
+    const burstTime = document.querySelector("#burst-time").value.trim();
 
     //validation
     if (pid == "" || processName == "" || arrivalTime == "" || burstTime == "") {
@@ -191,6 +191,11 @@ document.querySelector('#add').addEventListener('click', (e) => {
     }
     else if(pidValues.includes( parseInt(pid,10))){
         UI.showAlert("Duplicate PID value!!!");
+    }
+    else if(! /^\d+$/.test(arrivalTime)){
+        UI.showAlert("invalid arrival time!!!");
+    }else if(! /^\d+$/.test(burstTime) || ! /^(?!0*$).*$/.test(burstTime)){
+        UI.showAlert("invalid burst time!!!");
     }
     else {
 
@@ -281,7 +286,16 @@ function loadPresetData(){
 }
 
 //display amChart
-function makeChart(finalGraphData){
+function makeChart(finalGraphData,show=false,delayTime=0){
+    var chart = $("#chartdiv");
+    var chartHelp = $("#chart-help");
+    if(show){
+        chart.delay(delayTime).animate({opacity:0.99},'slow');
+        chartHelp.delay(delayTime).animate({opacity:0.99},'slow');
+    }else{
+        chartHelp.css('opacity','0');
+        chart.css('opacity','0');
+    }
     console.log("making chart");
     var chart = AmCharts.makeChart( "chartdiv", {
         "type": "gantt",
@@ -346,11 +360,13 @@ function runSimulation(processList){
         Process.totalTurnAround = 0;
         Process.totalWaiting = 0;
 
+        $("#current-running").get(0).scrollIntoView();
+
         myScheduler = new Scheduler(processList,timeQ);
         finalGraphData = myScheduler.processAll();
         UI.updateGanttChart();
         UI.updateCurrentRunning();
-        makeChart(finalGraphData);
+        makeChart(finalGraphData,true,1500*(Process.allProcessTimes.length));
         executed = true;
         processList = [];
         pidValues=[];
